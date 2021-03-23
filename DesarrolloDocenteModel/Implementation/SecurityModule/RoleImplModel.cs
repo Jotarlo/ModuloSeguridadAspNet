@@ -120,7 +120,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                 RoleModelMapper mapper = new RoleModelMapper();
                 var listaFinal = mapper.MapperT1T2(listaLinq);               
 
-                return listaFinal;
+                return listaFinal.ToList();
             }
         }
     }
