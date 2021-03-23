@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DesarrolloDocenteBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SEC_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="REMOVED" Type="bit" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="SEC_SESSION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USERID" Type="int" Nullable="false" />
+          <Property Name="LOGIN_DATE" Type="datetime" Nullable="false" />
+          <Property Name="IP_ADDRESS" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="TOKEN" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TOKEN_STATUS" Type="bit" Nullable="false" />
+          <Property Name="LOGOUT_DATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SEC_USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LASTNAME" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CELLPHONE" Type="nvarchar" MaxLength="30" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="100" />
+          <Property Name="USER_PASSWORD" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="REMOVED" Type="bit" Nullable="false" />
+          <Property Name="REMOVE_DATE" Type="datetime" />
+          <Property Name="CREATE_DATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDATE_DATE" Type="datetime" />
+          <Property Name="REMOVE_USER_ID" Type="int" />
+          <Property Name="CREATE_USER_ID" Type="int" />
+          <Property Name="UPDATE_USER_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="SEC_USER_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USERID" Type="int" Nullable="false" />
+          <Property Name="ROLEID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__SEC_USER___ROLEI__1A14E395">
+          <End Role="SEC_ROLE" Type="Self.SEC_ROLE" Multiplicity="1" />
+          <End Role="SEC_USER_ROLE" Type="Self.SEC_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_USER_ROLE">
+              <PropertyRef Name="ROLEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SEC_USER___USERI__1920BF5C">
+          <End Role="SEC_USER" Type="Self.SEC_USER" Multiplicity="1" />
+          <End Role="SEC_USER_ROLE" Type="Self.SEC_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_USER_ROLE">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="USERID_SEC_SESSION_FK">
+          <End Role="SEC_USER" Type="Self.SEC_USER" Multiplicity="1" />
+          <End Role="SEC_SESSION" Type="Self.SEC_SESSION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_SESSION">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DesarrolloDocenteBDModelStoreContainer">
+          <EntitySet Name="SEC_ROLE" EntityType="Self.SEC_ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEC_SESSION" EntityType="Self.SEC_SESSION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEC_USER" EntityType="Self.SEC_USER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEC_USER_ROLE" EntityType="Self.SEC_USER_ROLE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__SEC_USER___ROLEI__1A14E395" Association="Self.FK__SEC_USER___ROLEI__1A14E395">
+            <End Role="SEC_ROLE" EntitySet="SEC_ROLE" />
+            <End Role="SEC_USER_ROLE" EntitySet="SEC_USER_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SEC_USER___USERI__1920BF5C" Association="Self.FK__SEC_USER___USERI__1920BF5C">
+            <End Role="SEC_USER" EntitySet="SEC_USER" />
+            <End Role="SEC_USER_ROLE" EntitySet="SEC_USER_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="USERID_SEC_SESSION_FK" Association="Self.USERID_SEC_SESSION_FK">
+            <End Role="SEC_USER" EntitySet="SEC_USER" />
+            <End Role="SEC_SESSION" EntitySet="SEC_SESSION" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DesarrolloDocenteBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SEC_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SEC_USER_ROLE" Relationship="Self.FK__SEC_USER___ROLEI__1A14E395" FromRole="SEC_ROLE" ToRole="SEC_USER_ROLE" />
+          <Property Name="REMOVED" Type="Boolean" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SEC_SESSION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USERID" Type="Int32" Nullable="false" />
+          <Property Name="LOGIN_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IP_ADDRESS" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TOKEN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TOKEN_STATUS" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SEC_USER" Relationship="Self.USERID_SEC_SESSION_FK" FromRole="SEC_SESSION" ToRole="SEC_USER" />
+          <Property Name="LOGOUT_DATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SEC_USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LASTNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CELLPHONE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="USER_PASSWORD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SEC_SESSION" Relationship="Self.USERID_SEC_SESSION_FK" FromRole="SEC_USER" ToRole="SEC_SESSION" />
+          <NavigationProperty Name="SEC_USER_ROLE" Relationship="Self.FK__SEC_USER___USERI__1920BF5C" FromRole="SEC_USER" ToRole="SEC_USER_ROLE" />
+          <Property Name="REMOVED" Type="Boolean" Nullable="false" />
+          <Property Name="REMOVE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="CREATE_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="REMOVE_USER_ID" Type="Int32" />
+          <Property Name="CREATE_USER_ID" Type="Int32" />
+          <Property Name="UPDATE_USER_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SEC_USER_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USERID" Type="Int32" Nullable="false" />
+          <Property Name="ROLEID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SEC_ROLE" Relationship="Self.FK__SEC_USER___ROLEI__1A14E395" FromRole="SEC_USER_ROLE" ToRole="SEC_ROLE" />
+          <NavigationProperty Name="SEC_USER" Relationship="Self.FK__SEC_USER___USERI__1920BF5C" FromRole="SEC_USER_ROLE" ToRole="SEC_USER" />
+        </EntityType>
+        <Association Name="FK__SEC_USER___ROLEI__1A14E395">
+          <End Role="SEC_ROLE" Type="Self.SEC_ROLE" Multiplicity="1" />
+          <End Role="SEC_USER_ROLE" Type="Self.SEC_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_USER_ROLE">
+              <PropertyRef Name="ROLEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="USERID_SEC_SESSION_FK">
+          <End Role="SEC_USER" Type="Self.SEC_USER" Multiplicity="1" />
+          <End Role="SEC_SESSION" Type="Self.SEC_SESSION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_SESSION">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SEC_USER___USERI__1920BF5C">
+          <End Role="SEC_USER" Type="Self.SEC_USER" Multiplicity="1" />
+          <End Role="SEC_USER_ROLE" Type="Self.SEC_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_USER_ROLE">
+              <PropertyRef Name="USERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DesarrolloDocenteBDEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SEC_ROLE" EntityType="Self.SEC_ROLE" />
+          <EntitySet Name="SEC_SESSION" EntityType="Self.SEC_SESSION" />
+          <EntitySet Name="SEC_USER" EntityType="Self.SEC_USER" />
+          <EntitySet Name="SEC_USER_ROLE" EntityType="Self.SEC_USER_ROLE" />
+          <AssociationSet Name="FK__SEC_USER___ROLEI__1A14E395" Association="Self.FK__SEC_USER___ROLEI__1A14E395">
+            <End Role="SEC_ROLE" EntitySet="SEC_ROLE" />
+            <End Role="SEC_USER_ROLE" EntitySet="SEC_USER_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="USERID_SEC_SESSION_FK" Association="Self.USERID_SEC_SESSION_FK">
+            <End Role="SEC_USER" EntitySet="SEC_USER" />
+            <End Role="SEC_SESSION" EntitySet="SEC_SESSION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SEC_USER___USERI__1920BF5C" Association="Self.FK__SEC_USER___USERI__1920BF5C">
+            <End Role="SEC_USER" EntitySet="SEC_USER" />
+            <End Role="SEC_USER_ROLE" EntitySet="SEC_USER_ROLE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DesarrolloDocenteBDModelStoreContainer" CdmEntityContainer="DesarrolloDocenteBDEntities">
+          <EntitySetMapping Name="SEC_ROLE">
+            <EntityTypeMapping TypeName="DesarrolloDocenteBDModel.SEC_ROLE">
+              <MappingFragment StoreEntitySet="SEC_ROLE">
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="REMOVED" ColumnName="REMOVED" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEC_SESSION">
+            <EntityTypeMapping TypeName="DesarrolloDocenteBDModel.SEC_SESSION">
+              <MappingFragment StoreEntitySet="SEC_SESSION">
+                <ScalarProperty Name="LOGOUT_DATE" ColumnName="LOGOUT_DATE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="LOGIN_DATE" ColumnName="LOGIN_DATE" />
+                <ScalarProperty Name="IP_ADDRESS" ColumnName="IP_ADDRESS" />
+                <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
+                <ScalarProperty Name="TOKEN_STATUS" ColumnName="TOKEN_STATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEC_USER">
+            <EntityTypeMapping TypeName="DesarrolloDocenteBDModel.SEC_USER">
+              <MappingFragment StoreEntitySet="SEC_USER">
+                <ScalarProperty Name="UPDATE_USER_ID" ColumnName="UPDATE_USER_ID" />
+                <ScalarProperty Name="CREATE_USER_ID" ColumnName="CREATE_USER_ID" />
+                <ScalarProperty Name="REMOVE_USER_ID" ColumnName="REMOVE_USER_ID" />
+                <ScalarProperty Name="UPDATE_DATE" ColumnName="UPDATE_DATE" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="REMOVE_DATE" ColumnName="REMOVE_DATE" />
+                <ScalarProperty Name="REMOVED" ColumnName="REMOVED" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="CELLPHONE" ColumnName="CELLPHONE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="USER_PASSWORD" ColumnName="USER_PASSWORD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEC_USER_ROLE">
+            <EntityTypeMapping TypeName="DesarrolloDocenteBDModel.SEC_USER_ROLE">
+              <MappingFragment StoreEntitySet="SEC_USER_ROLE">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="ROLEID" ColumnName="ROLEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
