@@ -23,6 +23,10 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
         {
             UserDTOMapper mapper = new UserDTOMapper();
             UserDbModel dbModel = mapper.MapperT2T1(dto);
+            Encrypt enc = new Encrypt();
+            string randomPassword = enc.RandomString(10);
+            string newPassword = enc.CreateMD5(randomPassword);
+            dbModel.Password = newPassword;
             int response = model.RecordCreation(dbModel);
             // verify if the user was saved to send email
             if(response == 1)
@@ -36,6 +40,7 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
         {
             UserDTOMapper mapper = new UserDTOMapper();
             UserDbModel dbModel = mapper.MapperT2T1(dto);
+            dbModel.Password = new Encrypt().CreateMD5(dbModel.Password);
             return model.RecordUpdate(dbModel);
         }
 
@@ -57,17 +62,31 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
         {
             UserDTOMapper mapper = new UserDTOMapper();
             UserDbModel dbModel = mapper.MapperT2T1(dto);
+            dbModel.Password = new Encrypt().CreateMD5(dbModel.Password);
             var obj = model.Login(dbModel);
             return mapper.MapperT1T2(obj);
         }
 
-        public int PasswordReset(string currentPassword, string newPassword, int userId)
+        public int PasswordReset(string email)
         {
-            string email = string.Empty;
-            var response = model.PasswordReset(currentPassword, newPassword, userId, out email);
+            Encrypt enc = new Encrypt();
+            string randomPassword = enc.RandomString(10);
+            string newPassword = enc.CreateMD5(randomPassword);
+            var response = model.PasswordReset(email, newPassword);
             if (response == 1)
             {
                 new Notifications().SendEmail("Password Reset", "Content...", email, "test@desarrollodocente.ucaldas.edu.co");
+            }
+            return response;
+        }
+
+        public int ChangePassword(string currentPassword, string newPassword, int userId)
+        {
+            string email = string.Empty;
+            var response = model.ChangePassword(currentPassword, newPassword, userId, out email);
+            if (response == 1)
+            {
+                new Notifications().SendEmail("Password changed", "Content...", email, "test@desarrollodocente.ucaldas.edu.co");
             }
             return response;
         }

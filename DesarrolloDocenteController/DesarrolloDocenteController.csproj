@@ -50,6 +50,7 @@
     <Compile Include="Mapper\SecurityModule\RoleDTOMapper.cs" />
     <Compile Include="Mapper\SecurityModule\UserDTOMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Encrypt.cs" />
     <Compile Include="Services\Notifications.cs" />
   </ItemGroup>
   <ItemGroup />
