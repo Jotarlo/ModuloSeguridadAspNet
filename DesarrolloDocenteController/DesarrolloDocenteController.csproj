@@ -41,7 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\DTOBase.cs" />
+    <Compile Include="DTO\SecurityModule\RoleDTO.cs" />
+    <Compile Include="DTO\SecurityModule\UserDTO.cs" />
+    <Compile Include="Implementation\SecurityModule\UserImplController.cs" />
+    <Compile Include="Implementation\SecurityModule\RoleImplController.cs" />
+    <Compile Include="Mapper\MapperBase.cs" />
+    <Compile Include="Mapper\SecurityModule\RoleDTOMapper.cs" />
+    <Compile Include="Mapper\SecurityModule\UserDTOMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Notifications.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DesarrolloDocenteModel\DesarrolloDocenteModel.csproj">
+      <Project>{4b90f15c-78b8-4382-9beb-c5f23b39ba06}</Project>
+      <Name>DesarrolloDocenteModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

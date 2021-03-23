@@ -126,21 +126,46 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
             }
         }
 
+        public int PasswordReset(string currentPassword, string newPassword, int userId, out string email)
+        {
+            email = String.Empty;
+            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            {
+                try
+                {
+                    var user = db.SEC_USER.Where(x => x.ID == userId && x.USER_PASSWORD.Equals(currentPassword)).FirstOrDefault();
+                    if (user == null)
+                    {
+                        return 3;
+                    }
+                    user.USER_PASSWORD = newPassword;
+                    db.SaveChanges();
+                    email = user.EMAIL;
+                    return 1;
+                }
+                catch
+                {
+                    return 2;
+                }
+            }
+        }
+
         public UserDbModel Login(UserDbModel dbModel)
         {
             using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
             {
                 var login = (from user in db.SEC_USER
-                           where user.EMAIL.ToUpper().Equals(dbModel.Email.ToUpper()) && user.USER_PASSWORD.Equals(dbModel.Password)
-                           select user).FirstOrDefault();
+                             where user.EMAIL.ToUpper().Equals(dbModel.Email.ToUpper()) && user.USER_PASSWORD.Equals(dbModel.Password)
+                             select user).FirstOrDefault();
 
-                if(login == null)
+                if (login == null)
                 {
                     return null;
                 }
 
                 var date = dbModel.CurrentDate;
-                SEC_SESSION session = new SEC_SESSION() {
+                SEC_SESSION session = new SEC_SESSION()
+                {
                     USERID = login.ID,
                     LOGIN_DATE = date,
                     TOKEN_STATUS = true,
@@ -164,7 +189,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
 
         private string GetIpAddress()
         {
-            string hostName = Dns.GetHostName();  
+            string hostName = Dns.GetHostName();
             Console.WriteLine(hostName);
             // Get the IP  
             string myIP = Dns.GetHostEntry(hostName).AddressList[0].ToString();
