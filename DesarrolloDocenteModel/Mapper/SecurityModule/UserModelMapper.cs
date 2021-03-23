@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace DesarrolloDocenteModel.Mapper.SecurityModule
 {
+    /// <summary>
+    /// class to define the mapper structure for user
+    /// </summary>
     public class UserModelMapper : MapperBase<SEC_USER, UserDbModel>
     {
         public override UserDbModel MapperT1T2(SEC_USER input)
