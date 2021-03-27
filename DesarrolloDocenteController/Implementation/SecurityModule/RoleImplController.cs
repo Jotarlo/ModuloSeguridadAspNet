@@ -18,6 +18,11 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
             model = new RoleImplModel();
         }
 
+        /// <summary>
+        /// Creción de un registro
+        /// </summary>
+        /// <param name="dto">información DTO</param>
+        /// <returns>1: OK, 2: Excepción, 3. Ya existe</returns>
         public int RecordCreation(RoleDTO dto)
         {
             RoleDTOMapper mapper = new RoleDTOMapper();
@@ -25,6 +30,11 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
             return model.RecordCreation(dbModel);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public int RecordUpdate(RoleDTO dto)
         {
             RoleDTOMapper mapper = new RoleDTOMapper();
@@ -32,6 +42,11 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
             return model.RecordUpdate(dbModel);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public int RecordRemove(RoleDTO dto)
         {
             RoleDTOMapper mapper = new RoleDTOMapper();
@@ -39,11 +54,33 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
             return model.RecordRemove(dbModel);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public IEnumerable<RoleDTO> RecordList(string filter)
         {
             var list = model.RecordList(filter);
             RoleDTOMapper mapper = new RoleDTOMapper();
             return mapper.MapperT1T2(list);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public RoleDTO RecordSearch(int id)
+        {
+            var record = model.RecordSearch(id);
+
+            if (record == null)
+            {
+                return null;
+            }
+            RoleDTOMapper mapper = new RoleDTOMapper();
+            return mapper.MapperT1T2(record);
         }
     }
 }

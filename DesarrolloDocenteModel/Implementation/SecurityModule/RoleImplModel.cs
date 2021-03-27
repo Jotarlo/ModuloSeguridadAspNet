@@ -3,6 +3,7 @@ using DesarrolloDocenteModel.Mapper.SecurityModule;
 using DesarrolloDocenteModel.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,8 +61,10 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                     }
 
                     record.NAME = dbModel.Name;
+                    record.DESCRIPTION = dbModel.Description;
                     record.REMOVED = dbModel.Removed;
 
+                    db.Entry(record).State = EntityState.Modified;
                     db.SaveChanges();
                     return 1;
                 }
@@ -114,13 +117,27 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                 //var listaLambda = db.SEC_ROLE.Where(x => !x.REMOVED && x.NAME.ToUpper().Contains(filter.ToUpper())).ToList();
 
                 var listaLinq = from role in db.SEC_ROLE
-                                where !role.REMOVED && role.NAME.ToUpper().Contains(filter.ToUpper())
+                                where !role.REMOVED && role.NAME.ToUpper().Contains(filter)
                                 select role;
 
                 RoleModelMapper mapper = new RoleModelMapper();
                 var listaFinal = mapper.MapperT1T2(listaLinq);               
 
                 return listaFinal.ToList();
+            }
+        }
+
+        public RoleDbModel RecordSearch(int id)
+        {
+            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            {
+                var record = db.SEC_ROLE.Where(x => !x.REMOVED && x.ID == id).FirstOrDefault();
+                if (record != null)
+                {
+                    RoleModelMapper mapper = new RoleModelMapper();
+                    return mapper.MapperT1T2(record);
+                }
+                return null;
             }
         }
     }

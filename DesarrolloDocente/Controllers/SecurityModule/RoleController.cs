@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DesarrolloDocente.Helpers;
 using DesarrolloDocente.Mapper.SecurityModule;
 using DesarrolloDocente.Models.SecurityModule;
 using DesarrolloDocenteController.DTO.SecurityModule;
@@ -15,12 +16,15 @@ namespace DesarrolloDocente.Controllers.SecurityModule
 {
     public class RoleController : Controller
     {
-        private RoleImplController controller = new RoleImplController();
+        private RoleImplController capaNegocio = new RoleImplController();
 
         // GET: Role
         public ActionResult Index(string filter = "")
         {
-            return View(controller.RecordList(filter));
+            RoleModelMapper mapper = new RoleModelMapper();
+
+            IEnumerable<RoleModel> roleList = mapper.MapperT1T2(capaNegocio.RecordList(filter));
+            return View(roleList);
         }
 
         // GET: Role/Create
@@ -34,19 +38,19 @@ namespace DesarrolloDocente.Controllers.SecurityModule
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Removed,Description")] RoleModel model)
+        public ActionResult Create([Bind(Include = "Name,Description")] RoleModel model)
         {
             if (ModelState.IsValid)
             {
                 RoleModelMapper mapper = new RoleModelMapper();
                 RoleDTO dto = mapper.MapperT2T1(model);
-                int response = controller.RecordCreation(dto);
-                return RedirectToAction("Index");
+                int response = capaNegocio.RecordCreation(dto);
+                return this.ProcessResponse(response, model);
             }
 
             return View(model);
         }
-        /*
+        
         // GET: Role/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -54,30 +58,56 @@ namespace DesarrolloDocente.Controllers.SecurityModule
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SEC_ROLE sEC_ROLE = controller.SEC_ROLE.Find(id);
-            if (sEC_ROLE == null)
+            RoleDTO dto = capaNegocio.RecordSearch(id.Value);
+            if (dto == null)
             {
                 return HttpNotFound();
             }
-            return View(sEC_ROLE);
+            RoleModelMapper mapper = new RoleModelMapper();
+            RoleModel model = mapper.MapperT1T2(dto);
+            return View(model);
         }
-
+        
         // POST: Role/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,NAME,REMOVED,DESCRIPTION")] SEC_ROLE sEC_ROLE)
+        public ActionResult Edit([Bind(Include = "Id,Name,Removed,Description")] RoleModel model)
         {
             if (ModelState.IsValid)
             {
-                controller.Entry(sEC_ROLE).State = EntityState.Modified;
-                controller.SaveChanges();
-                return RedirectToAction("Index");
+                RoleModelMapper mapper = new RoleModelMapper();
+                RoleDTO dto = mapper.MapperT2T1(model);
+                int response = capaNegocio.RecordUpdate(dto);
+                return this.ProcessResponse(response, model);
             }
-            return View(sEC_ROLE);
+            return View(model);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private ActionResult ProcessResponse(int response, RoleModel model)
+        {
+            switch (response)
+            {
+                case 1:
+                    return RedirectToAction("Index");
+                case 2:
+                    ViewBag.Message = Messages.ExceptionMessage;
+                    return View(model);
+                case 3:
+                    ViewBag.Message = Messages.alreadyExistMessage;
+                    return View(model);
+            }
+            return RedirectToAction("Index");
+        }
+
+        
         // GET: Role/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -85,32 +115,25 @@ namespace DesarrolloDocente.Controllers.SecurityModule
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SEC_ROLE sEC_ROLE = controller.SEC_ROLE.Find(id);
-            if (sEC_ROLE == null)
+            RoleDTO dto = capaNegocio.RecordSearch(id.Value);
+            if (dto == null)
             {
                 return HttpNotFound();
             }
-            return View(sEC_ROLE);
+            RoleModelMapper mapper = new RoleModelMapper();
+            RoleModel model = mapper.MapperT1T2(dto);
+            return View(model);
         }
 
         // POST: Role/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include = "Id,Name,Removed,Description")] RoleModel model)
         {
-            SEC_ROLE sEC_ROLE = controller.SEC_ROLE.Find(id);
-            controller.SEC_ROLE.Remove(sEC_ROLE);
-            controller.SaveChanges();
-            return RedirectToAction("Index");
+            RoleModelMapper mapper = new RoleModelMapper();
+            RoleDTO dto = mapper.MapperT2T1(model);
+            int response = capaNegocio.RecordRemove(dto);
+            return this.ProcessResponse(response, model);
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                controller.Dispose();
-            }
-            base.Dispose(disposing);
-        }*/
     }
 }

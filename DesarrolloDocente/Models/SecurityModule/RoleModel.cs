@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,9 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         private string name;
 
+        [DisplayName("Nombre")]
+        [Required()]
+        [MaxLength(100)]
         public string Name
         {
             get { return name; }
@@ -26,6 +31,7 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         private string description;
 
+        [DisplayName("Descripción")]
         public string Description
         {
             get { return description; }
@@ -36,6 +42,7 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         private bool removed;
 
+        [DisplayName("Eliminado")]
         public bool Removed
         {
             get { return removed; }
