@@ -22,7 +22,7 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         [DisplayName("Nombre")]
         [Required()]
-        [MaxLength(100)]
+        [MaxLength(100, ErrorMessage = "El campo {0} debe rellenarse con menos de {1} caracteres de longitud.")]
         public string Name
         {
             get { return name; }

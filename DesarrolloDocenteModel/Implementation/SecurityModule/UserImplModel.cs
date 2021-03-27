@@ -115,12 +115,12 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
         {
             using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
             {
-                var lista = from role in db.SEC_USER
-                            where !role.REMOVED && role.NAME.ToUpper().Contains(filter.ToUpper())
-                            select role;
+                var lista = from user in db.SEC_USER
+                            where !user.REMOVED && user.NAME.ToUpper().Contains(filter)
+                            select user;
 
                 UserModelMapper mapper = new UserModelMapper();
-                var listaFinal = mapper.MapperT1T2(lista);
+                var listaFinal = mapper.MapperT1T2(lista).ToList();
 
                 return listaFinal;
             }
@@ -170,6 +170,20 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                 {
                     return 2;
                 }
+            }
+        }
+
+        public UserDbModel RecordSearch(int id)
+        {
+            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            {
+                var record = db.SEC_USER.Where(x => !x.REMOVED && x.ID == id).FirstOrDefault();
+                if (record != null)
+                {
+                    UserModelMapper mapper = new UserModelMapper();
+                    return mapper.MapperT1T2(record);
+                }
+                return null;
             }
         }
 

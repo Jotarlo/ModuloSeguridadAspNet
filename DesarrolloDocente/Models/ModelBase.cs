@@ -8,7 +8,6 @@ namespace DesarrolloDocente.Models
 {
     public class ModelBase
     {
-        private DateTime currentDate;
 
         public DateTime CurrentDate
         {

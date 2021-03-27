@@ -29,9 +29,18 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
             dbModel.Password = newPassword;
             int response = model.RecordCreation(dbModel);
             // verify if the user was saved to send email
-            if(response == 1)
+            if (response == 1)
             {
-                new Notifications().SendEmail("User Registration", "Content...", dto.Email, "test@desarrollodocente.ucaldas.edu.co");
+                String content = String.Format(@"Hola {0}, " +
+                    "<br />Usted ha sido registrado en la plataforma de desarrollo docente. " +
+                    "Sus credenciales de acceso son: <br /> " +
+                    "<ul>" +
+                    "<li>Usuario:{1}</li>" +
+                    "<li>Contrasña: {2}</li>" +
+                    "</ul>" +
+                    "<br />Cordial saludo, <br />" +
+                    "Su equipo de seguridad.", dto.Name, dto.Email, randomPassword);
+                new Notifications().SendEmail("User Registration", content, dto.Name, dto.Email);
             }
             return response;
         }
@@ -89,6 +98,17 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
                 new Notifications().SendEmail("Password changed", "Content...", email, "test@desarrollodocente.ucaldas.edu.co");
             }
             return response;
+        }
+        public UserDTO RecordSearch(int id)
+        {
+            var record = model.RecordSearch(id);
+
+            if (record == null)
+            {
+                return null;
+            }
+            UserDTOMapper mapper = new UserDTOMapper();
+            return mapper.MapperT1T2(record);
         }
     }
 }

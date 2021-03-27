@@ -47,7 +47,9 @@ namespace DesarrolloDocenteController.Mapper.SecurityModule
                 Lastname = input.Lastname,
                 Cellphone = input.Cellphone,
                 Email = input.Email,
-                Password = input.Password
+                Password = input.Password,
+                UserInSessionId = input.UserInSessionId,
+                CurrentDate = input.CurrentDate
             };
         }
 

@@ -8,11 +8,14 @@ namespace DesarrolloDocenteModel.DbModel
 {
     public class DbModelBase
     {
+
+
         private DateTime currentDate;
 
         public DateTime CurrentDate
         {
-            get { return DateTime.Now; }
+            get { return currentDate; }
+            set { currentDate = value; }
         }
 
         private int userInSessionId;

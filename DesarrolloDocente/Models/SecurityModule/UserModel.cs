@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,9 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         private string name;
 
+        [DisplayName("Nombre")]
+        [Required()]
+        [MaxLength(50, ErrorMessage ="El campo {0} puede tener una longitud máxima de {1} caracteres")]
         public string Name
         {
             get { return name; }
@@ -26,6 +31,9 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         private string lastname;
 
+        [DisplayName("Apellidos")]
+        [Required()]
+        [MaxLength(100, ErrorMessage = "El campo {0} puede tener una longitud máxima de {1} caracteres")]
         public string Lastname
         {
             get { return lastname; }
@@ -34,6 +42,9 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         private string cellphone;
 
+        [DisplayName("Celular")]
+        [Required()]
+        [MaxLength(30, ErrorMessage = "El campo {0} puede tener una longitud máxima de {1} caracteres")]
         public string Cellphone
         {
             get { return cellphone; }
@@ -42,6 +53,9 @@ namespace DesarrolloDocente.Models.SecurityModule
 
         private string email;
 
+        [DisplayName("Correo Electrónico")]
+        [Required()]
+        [MaxLength(100, ErrorMessage = "El campo {0} puede tener una longitud máxima de {1} caracteres")]
         public string Email
         {
             get { return email; }
