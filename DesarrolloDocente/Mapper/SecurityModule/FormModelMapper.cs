@@ -8,26 +8,25 @@ using System.Threading.Tasks;
 
 namespace DesarrolloDocente.Mapper.SecurityModule
 {
-    public class RoleModelMapper : MapperBase<RoleDTO, RoleModel>
+    public class FormModelMapper : MapperBase<FormDTO, FormModel>
     {
         /// <summary>
-        /// Method to map the RoleDTO object to RoleModel
+        /// Method to map the FormDTO object to FormModel
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public override RoleModel MapperT1T2(RoleDTO input)
+        public override FormModel MapperT1T2(FormDTO input)
         {
-            return new RoleModel()
+            return new FormModel()
             {
                 Id = input.Id,
                 Name = input.Name,
-                Description = input.Description,
-                Removed = input.Removed,
+                Url = input.Url,
                 IsSelectedByUser = input.IsSelectedByUser
             };
         }
 
-        public override IEnumerable<RoleModel> MapperT1T2(IEnumerable<RoleDTO> input)
+        public override IEnumerable<FormModel> MapperT1T2(IEnumerable<FormDTO> input)
         {
             foreach (var item in input)
             {
@@ -35,18 +34,17 @@ namespace DesarrolloDocente.Mapper.SecurityModule
             }
         }
 
-        public override RoleDTO MapperT2T1(RoleModel input)
+        public override FormDTO MapperT2T1(FormModel input)
         {
-            return new RoleDTO()
+            return new FormDTO()
             {
                 Id = input.Id,
                 Name = input.Name,
-                Description = input.Description,
-                Removed = input.Removed
+                Url = input.Url
             };
         }
 
-        public override IEnumerable<RoleDTO> MapperT2T1(IEnumerable<RoleModel> input)
+        public override IEnumerable<FormDTO> MapperT2T1(IEnumerable<FormModel> input)
         {
             foreach (var item in input)
             {

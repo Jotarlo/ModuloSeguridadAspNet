@@ -2,6 +2,7 @@
 using SendGrid.Helpers.Mail;
 using System;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace DesarrolloDocenteController.Services
 {
@@ -11,7 +12,9 @@ namespace DesarrolloDocenteController.Services
         {
             string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("jeferson.arango@ucaldas.edu.co", "Jeferson Arango López");
+            string emailFrom = System.Configuration.ConfigurationSettings.AppSettings["EmailFromSendGrid"];
+            string nameFrom = System.Configuration.ConfigurationSettings.AppSettings["NameFromSendGrid"];
+            var from = new EmailAddress(emailFrom, nameFrom);
             
             var to = new EmailAddress(toEmail, toName);
             var plainTextContent = content;

@@ -1,0 +1,64 @@
+﻿@model DesarrolloDocente.Models.SecurityModule.FormsRoleModel
+
+@{
+    ViewBag.Title = "Formularios";
+}
+
+<h2>Formularios del Rol</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.SelectedForms, new { @id="txtSelectedForms" })
+        @Html.HiddenFor(model => model.RoleId)
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre Formulario
+                    </th>
+                    <th>
+                        Selección
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ 
+                    List<string> selectedRoles = Model.SelectedForms.Split(',').ToList();
+                }
+                @foreach (var form in Model.FormsList)
+                {
+                    <tr>
+                        <td>
+                            @form.Name
+                        </td>
+                        <td>
+                            @Html.CheckBox("Role", form.IsSelectedByUser, new { @id = form.Id, @class= "formsList", @onclick = "refreshSelectedForms()" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Guardar" class="btn btn-success" /> |
+            @Html.ActionLink("Regresar", "Index")
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    function refreshSelectedForms() {
+        let selected = [];
+        $(".formsList").each((index, elem) => {
+            if ($(elem).is(":checked")) {
+                let id = $(elem).attr("id");
+                selected.push(id);
+            }
+        }).promise().done(function () {
+            $("#txtSelectedForms").val(selected.join(","));
+        });
+
+    }
+</script>

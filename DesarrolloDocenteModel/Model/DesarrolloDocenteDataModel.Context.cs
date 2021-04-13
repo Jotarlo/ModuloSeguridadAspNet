@@ -29,5 +29,7 @@ namespace DesarrolloDocenteModel.Model
         public DbSet<SEC_SESSION> SEC_SESSION { get; set; }
         public DbSet<SEC_USER> SEC_USER { get; set; }
         public DbSet<SEC_USER_ROLE> SEC_USER_ROLE { get; set; }
+        public DbSet<SEC_FORM> SEC_FORM { get; set; }
+        public DbSet<SEC_FORMS_ROLE> SEC_FORMS_ROLE { get; set; }
     }
 }

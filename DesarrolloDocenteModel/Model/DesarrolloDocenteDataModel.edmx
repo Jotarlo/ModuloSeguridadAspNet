@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DesarrolloDocenteBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SEC_FORM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="URL" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="SEC_FORMS_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ROLE_ID" Type="int" Nullable="false" />
+          <Property Name="FORM_ID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="SEC_ROLE">
           <Key>
             <PropertyRef Name="ID" />
@@ -52,6 +68,30 @@
           <Property Name="USERID" Type="int" Nullable="false" />
           <Property Name="ROLEID" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK__SEC_FORMS__FORM___398D8EEE">
+          <End Role="SEC_FORM" Type="Self.SEC_FORM" Multiplicity="1" />
+          <End Role="SEC_FORMS_ROLE" Type="Self.SEC_FORMS_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_FORM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_FORMS_ROLE">
+              <PropertyRef Name="FORM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SEC_FORMS__ROLE___38996AB5">
+          <End Role="SEC_ROLE" Type="Self.SEC_ROLE" Multiplicity="1" />
+          <End Role="SEC_FORMS_ROLE" Type="Self.SEC_FORMS_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_FORMS_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__SEC_USER___ROLEI__1A14E395">
           <End Role="SEC_ROLE" Type="Self.SEC_ROLE" Multiplicity="1" />
           <End Role="SEC_USER_ROLE" Type="Self.SEC_USER_ROLE" Multiplicity="*" />
@@ -89,10 +129,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DesarrolloDocenteBDModelStoreContainer">
+          <EntitySet Name="SEC_FORM" EntityType="Self.SEC_FORM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEC_FORMS_ROLE" EntityType="Self.SEC_FORMS_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEC_ROLE" EntityType="Self.SEC_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEC_SESSION" EntityType="Self.SEC_SESSION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEC_USER" EntityType="Self.SEC_USER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SEC_USER_ROLE" EntityType="Self.SEC_USER_ROLE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__SEC_FORMS__FORM___398D8EEE" Association="Self.FK__SEC_FORMS__FORM___398D8EEE">
+            <End Role="SEC_FORM" EntitySet="SEC_FORM" />
+            <End Role="SEC_FORMS_ROLE" EntitySet="SEC_FORMS_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SEC_FORMS__ROLE___38996AB5" Association="Self.FK__SEC_FORMS__ROLE___38996AB5">
+            <End Role="SEC_ROLE" EntitySet="SEC_ROLE" />
+            <End Role="SEC_FORMS_ROLE" EntitySet="SEC_FORMS_ROLE" />
+          </AssociationSet>
           <AssociationSet Name="FK__SEC_USER___ROLEI__1A14E395" Association="Self.FK__SEC_USER___ROLEI__1A14E395">
             <End Role="SEC_ROLE" EntitySet="SEC_ROLE" />
             <End Role="SEC_USER_ROLE" EntitySet="SEC_USER_ROLE" />
@@ -119,6 +169,7 @@
           <NavigationProperty Name="SEC_USER_ROLE" Relationship="Self.FK__SEC_USER___ROLEI__1A14E395" FromRole="SEC_ROLE" ToRole="SEC_USER_ROLE" />
           <Property Name="REMOVED" Type="Boolean" Nullable="false" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SEC_FORMS_ROLE" Relationship="DesarrolloDocenteBDModel.FK__SEC_FORMS__ROLE___38996AB5" FromRole="SEC_ROLE" ToRole="SEC_FORMS_ROLE" />
         </EntityType>
         <EntityType Name="SEC_SESSION">
           <Key>
@@ -216,7 +267,60 @@
             <End Role="SEC_USER" EntitySet="SEC_USER" />
             <End Role="SEC_USER_ROLE" EntitySet="SEC_USER_ROLE" />
           </AssociationSet>
+          <EntitySet Name="SEC_FORM" EntityType="DesarrolloDocenteBDModel.SEC_FORM" />
+          <EntitySet Name="SEC_FORMS_ROLE" EntityType="DesarrolloDocenteBDModel.SEC_FORMS_ROLE" />
+          <AssociationSet Name="FK__SEC_FORMS__FORM___398D8EEE" Association="DesarrolloDocenteBDModel.FK__SEC_FORMS__FORM___398D8EEE">
+            <End Role="SEC_FORM" EntitySet="SEC_FORM" />
+            <End Role="SEC_FORMS_ROLE" EntitySet="SEC_FORMS_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SEC_FORMS__ROLE___38996AB5" Association="DesarrolloDocenteBDModel.FK__SEC_FORMS__ROLE___38996AB5">
+            <End Role="SEC_ROLE" EntitySet="SEC_ROLE" />
+            <End Role="SEC_FORMS_ROLE" EntitySet="SEC_FORMS_ROLE" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="SEC_FORM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SEC_FORMS_ROLE" Relationship="DesarrolloDocenteBDModel.FK__SEC_FORMS__FORM___398D8EEE" FromRole="SEC_FORM" ToRole="SEC_FORMS_ROLE" />
+        </EntityType>
+        <EntityType Name="SEC_FORMS_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROLE_ID" Type="Int32" Nullable="false" />
+          <Property Name="FORM_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SEC_FORM" Relationship="DesarrolloDocenteBDModel.FK__SEC_FORMS__FORM___398D8EEE" FromRole="SEC_FORMS_ROLE" ToRole="SEC_FORM" />
+          <NavigationProperty Name="SEC_ROLE" Relationship="DesarrolloDocenteBDModel.FK__SEC_FORMS__ROLE___38996AB5" FromRole="SEC_FORMS_ROLE" ToRole="SEC_ROLE" />
+        </EntityType>
+        <Association Name="FK__SEC_FORMS__FORM___398D8EEE">
+          <End Type="DesarrolloDocenteBDModel.SEC_FORM" Role="SEC_FORM" Multiplicity="1" />
+          <End Type="DesarrolloDocenteBDModel.SEC_FORMS_ROLE" Role="SEC_FORMS_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_FORM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_FORMS_ROLE">
+              <PropertyRef Name="FORM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SEC_FORMS__ROLE___38996AB5">
+          <End Type="DesarrolloDocenteBDModel.SEC_ROLE" Role="SEC_ROLE" Multiplicity="1" />
+          <End Type="DesarrolloDocenteBDModel.SEC_FORMS_ROLE" Role="SEC_FORMS_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEC_ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SEC_FORMS_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -271,6 +375,24 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="USERID" ColumnName="USERID" />
                 <ScalarProperty Name="ROLEID" ColumnName="ROLEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEC_FORM">
+            <EntityTypeMapping TypeName="DesarrolloDocenteBDModel.SEC_FORM">
+              <MappingFragment StoreEntitySet="SEC_FORM">
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEC_FORMS_ROLE">
+            <EntityTypeMapping TypeName="DesarrolloDocenteBDModel.SEC_FORMS_ROLE">
+              <MappingFragment StoreEntitySet="SEC_FORMS_ROLE">
+                <ScalarProperty Name="FORM_ID" ColumnName="FORM_ID" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

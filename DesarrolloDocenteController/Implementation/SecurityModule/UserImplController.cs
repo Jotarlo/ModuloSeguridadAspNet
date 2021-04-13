@@ -14,9 +14,11 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
     public class UserImplController
     {
         private UserImplModel model;
+        private RoleImplModel roleModel;
         public UserImplController()
         {
             model = new UserImplModel();
+            roleModel = new RoleImplModel();
         }
 
         public int RecordCreation(UserDTO dto)
@@ -49,7 +51,6 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
         {
             UserDTOMapper mapper = new UserDTOMapper();
             UserDbModel dbModel = mapper.MapperT2T1(dto);
-            dbModel.Password = new Encrypt().CreateMD5(dbModel.Password);
             return model.RecordUpdate(dbModel);
         }
 
@@ -109,6 +110,24 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
             }
             UserDTOMapper mapper = new UserDTOMapper();
             return mapper.MapperT1T2(record);
+        }
+
+        ///
+        public bool AssignRoles(List<int> roleList, int userId)
+        {
+            return model.AssignRoles(roleList, userId);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IEnumerable<RoleDTO> RecordListByUser(int userId)
+        {
+            var list = roleModel.RecordListByUser(userId);
+            RoleDTOMapper mapper = new RoleDTOMapper();
+            return mapper.MapperT1T2(list);
         }
     }
 }

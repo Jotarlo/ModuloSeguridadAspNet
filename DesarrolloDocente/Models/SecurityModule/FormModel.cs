@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DesarrolloDocenteModel.DbModel.SecurityModule
+namespace DesarrolloDocente.Models.SecurityModule
 {
-    public class RoleDbModel
+    public class FormModel
     {
         private int id;
 
@@ -24,12 +23,12 @@ namespace DesarrolloDocenteModel.DbModel.SecurityModule
             set { name = value; }
         }
 
-        private string description;
+        private string url;
 
-        public string Description
+        public string Url
         {
-            get { return description; }
-            set { description = value; }
+            get { return url; }
+            set { url = value; }
         }
 
         private bool isSelectedByUser;
@@ -38,14 +37,6 @@ namespace DesarrolloDocenteModel.DbModel.SecurityModule
         {
             get { return isSelectedByUser; }
             set { isSelectedByUser = value; }
-        }
-
-        private bool removed;
-
-        public bool Removed
-        {
-            get { return removed; }
-            set { removed = value; }
         }
 
     }

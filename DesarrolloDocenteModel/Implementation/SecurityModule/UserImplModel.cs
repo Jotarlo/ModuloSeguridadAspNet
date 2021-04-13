@@ -60,7 +60,6 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                     record.LASTNAME = dbModel.Lastname;
                     record.CELLPHONE = dbModel.Cellphone;
                     record.EMAIL = dbModel.Email;
-                    record.USER_PASSWORD = dbModel.Password;
                     record.UPDATE_USER_ID = dbModel.UserInSessionId;
                     record.UPDATE_DATE = dbModel.CurrentDate;
 
@@ -232,5 +231,41 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
             string myIP = Dns.GetHostEntry(hostName).AddressList[0].ToString();
             return myIP;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bool AssignRoles(List<int> roles, int userId)
+        {
+            using(DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            {
+                try
+                {
+                    IList<SEC_USER_ROLE> userRoleList = db.SEC_USER_ROLE.Where(x => x.USERID == userId).ToList();
+                    foreach (var userRole in userRoleList)
+                    {
+                        db.SEC_USER_ROLE.Remove(userRole);
+                    }
+
+                    foreach (int roleId in roles)
+                    {
+                        db.SEC_USER_ROLE.Add(new SEC_USER_ROLE()
+                        {
+                            USERID = userId,
+                            ROLEID = roleId
+                        });
+                    }
+                    db.SaveChanges();
+                    return true;
+                }catch(Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
     }
 }

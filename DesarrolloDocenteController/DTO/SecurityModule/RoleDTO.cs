@@ -33,7 +33,6 @@ namespace DesarrolloDocenteController.DTO.SecurityModule
         }
 
 
-
         private bool removed;
 
         public bool Removed
@@ -41,6 +40,15 @@ namespace DesarrolloDocenteController.DTO.SecurityModule
             get { return removed; }
             set { removed = value; }
         }
+
+        private bool isSelectedByUser;
+
+        public bool IsSelectedByUser
+        {
+            get { return isSelectedByUser; }
+            set { isSelectedByUser = value; }
+        }
+
 
     }
 }

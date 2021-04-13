@@ -12,20 +12,13 @@ namespace DesarrolloDocenteModel.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class SEC_ROLE
+    public partial class SEC_FORMS_ROLE
     {
-        public SEC_ROLE()
-        {
-            this.SEC_USER_ROLE = new HashSet<SEC_USER_ROLE>();
-            this.SEC_FORMS_ROLE = new HashSet<SEC_FORMS_ROLE>();
-        }
-    
         public int ID { get; set; }
-        public string NAME { get; set; }
-        public bool REMOVED { get; set; }
-        public string DESCRIPTION { get; set; }
+        public int ROLE_ID { get; set; }
+        public int FORM_ID { get; set; }
     
-        public virtual ICollection<SEC_USER_ROLE> SEC_USER_ROLE { get; set; }
-        public virtual ICollection<SEC_FORMS_ROLE> SEC_FORMS_ROLE { get; set; }
+        public virtual SEC_FORM SEC_FORM { get; set; }
+        public virtual SEC_ROLE SEC_ROLE { get; set; }
     }
 }

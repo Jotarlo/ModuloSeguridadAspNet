@@ -1,0 +1,64 @@
+﻿@model DesarrolloDocente.Models.SecurityModule.UserRoleModel
+
+@{
+    ViewBag.Title = "Roles";
+}
+
+<h2>Roles de Usuarios</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.SelectedRoles, new { @id="txtSelectedRoles" })
+        @Html.HiddenFor(model => model.UserId)
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre Rol
+                    </th>
+                    <th>
+                        Selección
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ 
+                    List<string> selectedRoles = Model.SelectedRoles.Split(',').ToList();
+                }
+                @foreach (var role in Model.RoleList)
+                {
+                    <tr>
+                        <td>
+                            @role.Name
+                        </td>
+                        <td>
+                            @Html.CheckBox("Role", role.IsSelectedByUser, new { @id = role.Id, @class="roleList", @onclick = "refreshSelectedRoles()" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Guardar" class="btn btn-success" /> |
+            @Html.ActionLink("Regresar", "Index")
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    function refreshSelectedRoles() {
+        let selected = [];
+        $(".roleList").each((index, elem) => {
+            if ($(elem).is(":checked")) {
+                let id = $(elem).attr("id");
+                selected.push(id);
+            }
+        }).promise().done(function () {
+            $("#txtSelectedRoles").val(selected.join(","));
+        });
+
+    }
+</script>

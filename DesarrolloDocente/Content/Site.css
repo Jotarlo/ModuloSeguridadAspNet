@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.sessionBar{
+    background: #cfcfcf;
+    color: black;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+}

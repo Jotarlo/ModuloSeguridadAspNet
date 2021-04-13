@@ -12,6 +12,10 @@
         <AssociationConnector Association="DesarrolloDocenteBDModel.FK__SEC_USER___ROLEI__1A14E395" ManuallyRouted="false" />
         <AssociationConnector Association="DesarrolloDocenteBDModel.USERID_SEC_SESSION_FK" ManuallyRouted="false" />
         <AssociationConnector Association="DesarrolloDocenteBDModel.FK__SEC_USER___USERI__1920BF5C" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DesarrolloDocenteBDModel.SEC_FORM" Width="1.5" PointX="5.375" PointY="5.5" />
+        <EntityTypeShape EntityType="DesarrolloDocenteBDModel.SEC_FORMS_ROLE" Width="1.5" PointX="7.625" PointY="1.375" />
+        <AssociationConnector Association="DesarrolloDocenteBDModel.FK__SEC_FORMS__FORM___398D8EEE" />
+        <AssociationConnector Association="DesarrolloDocenteBDModel.FK__SEC_FORMS__ROLE___38996AB5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

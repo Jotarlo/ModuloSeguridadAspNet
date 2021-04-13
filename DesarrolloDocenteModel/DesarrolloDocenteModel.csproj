@@ -57,11 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbModel\DbModelBase.cs" />
+    <Compile Include="DbModel\SecurityModule\FormDbModel.cs" />
     <Compile Include="DbModel\SecurityModule\UserDbModel.cs" />
     <Compile Include="DbModel\SecurityModule\RoleDbModel.cs" />
     <Compile Include="Implementation\SecurityModule\UserImplModel.cs" />
     <Compile Include="Implementation\SecurityModule\RoleImplModel.cs" />
     <Compile Include="Mapper\MapperBase.cs" />
+    <Compile Include="Mapper\SecurityModule\FormModelMapper.cs" />
     <Compile Include="Mapper\SecurityModule\UserModelMapper.cs" />
     <Compile Include="Mapper\SecurityModule\RoleModelMapper.cs" />
     <Compile Include="Model\DesarrolloDocenteDataModel.Context.cs">
@@ -78,6 +80,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DesarrolloDocenteDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SEC_FORM.cs">
+      <DependentUpon>DesarrolloDocenteDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SEC_FORMS_ROLE.cs">
+      <DependentUpon>DesarrolloDocenteDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SEC_ROLE.cs">
       <DependentUpon>DesarrolloDocenteDataModel.tt</DependentUpon>

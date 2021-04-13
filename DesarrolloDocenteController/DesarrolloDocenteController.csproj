@@ -53,11 +53,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\DTOBase.cs" />
+    <Compile Include="DTO\SecurityModule\FormDTO.cs" />
     <Compile Include="DTO\SecurityModule\RoleDTO.cs" />
     <Compile Include="DTO\SecurityModule\UserDTO.cs" />
     <Compile Include="Implementation\SecurityModule\UserImplController.cs" />
     <Compile Include="Implementation\SecurityModule\RoleImplController.cs" />
     <Compile Include="Mapper\MapperBase.cs" />
+    <Compile Include="Mapper\SecurityModule\FormDTOMapper.cs" />
     <Compile Include="Mapper\SecurityModule\RoleDTOMapper.cs" />
     <Compile Include="Mapper\SecurityModule\UserDTOMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

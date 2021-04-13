@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
@@ -17,20 +17,35 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nombre de aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Desarrollo Docente", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Roles", "Index", "Role")</li>
-                    <li>@Html.ActionLink("Usuarios", "Index", "User")</li>
+                    @if (Session.Count > 0)
+                    {
+                        <li>@Html.ActionLink("Roles", "Index", "Role")</li>
+                        <li>@Html.ActionLink("Usuarios", "Index", "User")</li>
+                        <li>@Html.ActionLink("Cerrar Sesión", "Logout", "User")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "User")</li>
+                    }
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
+
+        @if (Session.Count > 0)
+        {
+            <div class="sessionBar">
+                En sesión:                <strong>@Session["username"]</strong>
+            </div>
+        }
         @RenderBody()
         <hr />
         <footer>

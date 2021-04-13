@@ -7,7 +7,7 @@
 <h2>Listado de Registros</h2>
 
 <p>
-    @Html.ActionLink("Nuevo Registro", "Create")
+    @Html.ActionLink("Nuevo Registro", "Create", new { }, new { @class = "btn btn-success" })
 </p>
 <table class="table">
     <thead>
@@ -46,8 +46,9 @@
                 @Html.DisplayFor(modelItem => item.Cellphone)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" }) |
+                @Html.ActionLink("Roles", "Roles", new { id = item.Id }, new { @class = "btn btn-info" })
             </td>
         </tr>
         }
