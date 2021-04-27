@@ -63,9 +63,9 @@
     <Compile Include="Implementation\SecurityModule\UserImplModel.cs" />
     <Compile Include="Implementation\SecurityModule\RoleImplModel.cs" />
     <Compile Include="Mapper\MapperBase.cs" />
-    <Compile Include="Mapper\SecurityModule\FormModelMapper.cs" />
-    <Compile Include="Mapper\SecurityModule\UserModelMapper.cs" />
-    <Compile Include="Mapper\SecurityModule\RoleModelMapper.cs" />
+    <Compile Include="Mapper\SecurityModule\FormDbModelMapper.cs" />
+    <Compile Include="Mapper\SecurityModule\UserDbModelMapper.cs" />
+    <Compile Include="Mapper\SecurityModule\RoleDbModelMapper.cs" />
     <Compile Include="Model\DesarrolloDocenteDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

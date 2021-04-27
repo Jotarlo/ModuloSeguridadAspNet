@@ -12,6 +12,8 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
 {
     public class UserImplModel
     {
+        #region CRUD
+
         /// <summary>
         /// Se agrega un nuevo registro a los roles
         /// </summary>
@@ -23,7 +25,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
             {
                 try
                 {
-                    UserModelMapper mapper = new UserModelMapper();
+                    UserDbModelMapper mapper = new UserDbModelMapper();
                     SEC_USER record = mapper.MapperT2T1(dbModel);
                     record.CREATE_DATE = dbModel.CurrentDate;
                     record.CREATE_USER_ID = dbModel.UserInSessionId;
@@ -36,6 +38,25 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                 {
                     return 2;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public UserDbModel RecordSearch(int id)
+        {
+            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            {
+                var record = db.SEC_USER.Where(x => !x.REMOVED && x.ID == id).FirstOrDefault();
+                if (record != null)
+                {
+                    UserDbModelMapper mapper = new UserDbModelMapper();
+                    return mapper.MapperT1T2(record);
+                }
+                return null;
             }
         }
 
@@ -118,13 +139,24 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                             where !user.REMOVED && user.NAME.ToUpper().Contains(filter)
                             select user;
 
-                UserModelMapper mapper = new UserModelMapper();
+                UserDbModelMapper mapper = new UserDbModelMapper();
                 var listaFinal = mapper.MapperT1T2(lista).ToList();
 
                 return listaFinal;
             }
         }
 
+        #endregion
+
+        #region Security Actions
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <param name="userId"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public int ChangePassword(string currentPassword, string newPassword, int userId, out string email)
         {
             email = String.Empty;
@@ -149,6 +181,12 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
         public int PasswordReset(string email, string newPassword)
         {
             using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
@@ -172,20 +210,11 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
             }
         }
 
-        public UserDbModel RecordSearch(int id)
-        {
-            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
-            {
-                var record = db.SEC_USER.Where(x => !x.REMOVED && x.ID == id).FirstOrDefault();
-                if (record != null)
-                {
-                    UserModelMapper mapper = new UserModelMapper();
-                    return mapper.MapperT1T2(record);
-                }
-                return null;
-            }
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dbModel"></param>
+        /// <returns></returns>
         public UserDbModel Login(UserDbModel dbModel)
         {
             using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
@@ -211,18 +240,26 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
 
                 db.SEC_SESSION.Add(session);
                 db.SaveChanges();
-                UserModelMapper mapper = new UserModelMapper();
+                UserDbModelMapper mapper = new UserDbModelMapper();
                 return mapper.MapperT1T2(login);
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         private string GetToken(string key)
         {
             int HashCode = key.GetHashCode();
             return HashCode.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private string GetIpAddress()
         {
             string hostName = Dns.GetHostName();
@@ -240,7 +277,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
         /// <returns></returns>
         public bool AssignRoles(List<int> roles, int userId)
         {
-            using(DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
             {
                 try
                 {
@@ -260,12 +297,58 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                     }
                     db.SaveChanges();
                     return true;
-                }catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     return false;
                 }
             }
         }
+
+
+        public IEnumerable<FormDbModel> GetRoleFormsByUser(int userId)
+        {
+            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            {
+                // query to get role forms by user
+                IEnumerable<SEC_FORM> list = (from u in db.SEC_USER
+                            join ur in db.SEC_USER_ROLE on u.ID equals ur.USERID
+                            join r in db.SEC_ROLE on ur.ROLEID equals r.ID
+                            join fr in db.SEC_FORMS_ROLE on r.ID equals fr.ROLE_ID
+                            join f in db.SEC_FORM on fr.FORM_ID equals f.ID
+                            where u.ID == userId
+                            select f).Distinct().ToList();
+
+                IList<FormDbModel> formsList = new FormDbModelMapper().MapperT1T2(list).ToList();
+
+                return formsList;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="formId"></param>
+        /// <returns></returns>
+        public bool ValidateUserInForm(int userId, int formId)
+        {
+
+            using (DesarrolloDocenteBDEntities db = new DesarrolloDocenteBDEntities())
+            {
+                // query to get role forms by user
+                var amountForms = (from u in db.SEC_USER
+                                join ur in db.SEC_USER_ROLE on u.ID equals ur.USERID
+                                join r in db.SEC_ROLE on ur.ROLEID equals r.ID
+                                join fr in db.SEC_FORMS_ROLE on r.ID equals fr.ROLE_ID
+                                where u.ID == userId && fr.FORM_ID == formId
+                                select fr).Count();
+
+                return amountForms > 0;
+            }
+        }
+
+        #endregion
 
     }
 }

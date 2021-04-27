@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DesarrolloDocenteModel.Mapper.SecurityModule
 {
-    public class FormModelMapper : MapperBase<SEC_FORM, FormDbModel>
+    public class FormDbModelMapper : MapperBase<SEC_FORM, FormDbModel>
     {
         /// <summary>
         /// Method to map the SEC_FORM object to FormDbModel

@@ -26,9 +26,12 @@
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                     @if (Session.Count > 0)
                     {
-                        <li>@Html.ActionLink("Roles", "Index", "Role")</li>
-                        <li>@Html.ActionLink("Usuarios", "Index", "User")</li>
-                        <li>@Html.ActionLink("Cerrar Sesión", "Logout", "User")</li>
+                        int userId = Int32.Parse(Session["userId"].ToString());
+                        IEnumerable<DesarrolloDocente.Models.SecurityModule.FormModel> list = DesarrolloDocente.Helpers.Menu.GetMenuForms(userId);
+                        foreach (var menu in list)
+                        {
+                            <li><a href="@menu.Url">@menu.Name</a></li>
+                        }
                     }
                     else
                     {

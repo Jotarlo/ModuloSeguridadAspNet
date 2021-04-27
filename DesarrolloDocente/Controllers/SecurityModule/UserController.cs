@@ -19,10 +19,15 @@ namespace DesarrolloDocente.Controllers.SecurityModule
         private UserImplController capaNegocio = new UserImplController();
         private RoleImplController capaNegocioRol = new RoleImplController();
 
+        public UserController()
+        {
+            
+        }
+
         // GET: User
         public ActionResult Index(string filter = "")
         {
-            if (!this.VerificarSession())
+            if (!this.VerifySession() || !this.VerifyUserInForm())
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -34,7 +39,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
         // GET: User/Create
         public ActionResult Create()
         {
-            if (!this.VerificarSession())
+            if (!this.VerifySession() || !this.VerifyUserInForm())
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -59,11 +64,11 @@ namespace DesarrolloDocente.Controllers.SecurityModule
 
             return View(model);
         }
-        
+
         // GET: User/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!this.VerificarSession())
+            if (!this.VerifySession() || !this.VerifyUserInForm())
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -80,7 +85,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
             UserModel model = mapper.MapperT1T2(dto);
             return View(model);
         }
-        
+
         // POST: User/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -120,11 +125,11 @@ namespace DesarrolloDocente.Controllers.SecurityModule
             return RedirectToAction("Index");
         }
 
-        
+
         // GET: User/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (!this.VerificarSession())
+            if (!this.VerifySession() || !this.VerifyUserInForm())
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -155,7 +160,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
 
         public ActionResult Roles(int? id)
         {
-            if (!this.VerificarSession())
+            if (!this.VerifySession() || !this.VerifyUserInForm())
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -172,7 +177,8 @@ namespace DesarrolloDocente.Controllers.SecurityModule
             IEnumerable<RoleModel> roleList = mapper.MapperT1T2(dtoList);
             var selectedList = roleList.Where(x => x.IsSelectedByUser).Select(x => x.Id).ToList();
 
-            UserRoleModel model = new UserRoleModel() {
+            UserRoleModel model = new UserRoleModel()
+            {
                 UserId = id.Value,
                 RoleList = roleList,
                 SelectedRoles = String.Join(",", selectedList)
@@ -202,7 +208,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
 
         public ActionResult Login()
         {
-            if (this.VerificarSession())
+            if (this.VerifySession())
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -222,7 +228,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
             };
 
             UserDTO login = capaNegocio.Login(dto);
-            if(login == null)
+            if (login == null)
             {
                 ViewBag.ErrorMessage = "Datos inválidos";
                 return View(model);
@@ -231,6 +237,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
             {
                 Session["username"] = model.UserName;
                 Session["token"] = login.Token;
+                Session["userId"] = login.Id;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -238,7 +245,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
 
         public ActionResult Logout()
         {
-            if (!this.VerificarSession())
+            if (!this.VerifySession())
             {
                 return RedirectToAction("Index", "Home");
             }

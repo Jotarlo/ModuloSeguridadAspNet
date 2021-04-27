@@ -129,5 +129,24 @@ namespace DesarrolloDocenteController.Implementation.SecurityModule
             RoleDTOMapper mapper = new RoleDTOMapper();
             return mapper.MapperT1T2(list);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IEnumerable<FormDTO> GetRoleFormsByUser(int userId)
+        {
+            IEnumerable<FormDbModel> dbModelList = model.GetRoleFormsByUser(userId);
+            FormDTOMapper mapper = new FormDTOMapper();
+            IEnumerable<FormDTO> list = mapper.MapperT1T2(dbModelList);
+            return list;
+        }
+
+
+        public bool ValidateUserInForm(int userId, int formId)
+        {
+            return model.ValidateUserInForm(userId, formId);
+        }
     }
 }

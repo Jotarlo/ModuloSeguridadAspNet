@@ -29,7 +29,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                         return 3;
                     }
 
-                    RoleModelMapper mapper = new RoleModelMapper();
+                    RoleDbModelMapper mapper = new RoleDbModelMapper();
                     SEC_ROLE record = mapper.MapperT2T1(dbModel);
 
                     db.SEC_ROLE.Add(record);
@@ -120,7 +120,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                                 where !role.REMOVED && role.NAME.ToUpper().Contains(filter)
                                 select role;
 
-                RoleModelMapper mapper = new RoleModelMapper();
+                RoleDbModelMapper mapper = new RoleDbModelMapper();
                 var listaFinal = mapper.MapperT1T2(listaLinq);               
 
                 return listaFinal.ToList();
@@ -134,7 +134,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                 var record = db.SEC_ROLE.Where(x => !x.REMOVED && x.ID == id).FirstOrDefault();
                 if (record != null)
                 {
-                    RoleModelMapper mapper = new RoleModelMapper();
+                    RoleDbModelMapper mapper = new RoleDbModelMapper();
                     return mapper.MapperT1T2(record);
                 }
                 return null;
@@ -215,7 +215,7 @@ namespace DesarrolloDocenteModel.Implementation.SecurityModule
                 var recordList = from f in db.SEC_FORM
                                 select f;
 
-                FormModelMapper mapper = new FormModelMapper();
+                FormDbModelMapper mapper = new FormDbModelMapper();
                 var listaFinal = mapper.MapperT1T2(recordList).ToList();
 
                 return listaFinal.ToList();

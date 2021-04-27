@@ -138,7 +138,7 @@ namespace DesarrolloDocente.Controllers.SecurityModule
 
         public ActionResult Forms(int? id)
         {
-            if (!this.VerificarSession())
+            if (!this.VerifySession())
             {
                 return RedirectToAction("Index", "Home");
             }

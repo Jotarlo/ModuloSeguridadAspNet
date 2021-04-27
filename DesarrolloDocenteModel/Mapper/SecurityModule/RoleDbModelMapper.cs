@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DesarrolloDocenteModel.Mapper.SecurityModule
 {
-    public class RoleModelMapper : MapperBase<SEC_ROLE, RoleDbModel>
+    public class RoleDbModelMapper : MapperBase<SEC_ROLE, RoleDbModel>
     {
         /// <summary>
         /// Method to map the SEC_ROLE object to RoleDbModel
